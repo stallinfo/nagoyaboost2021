@@ -1,4 +1,6 @@
 class LandingsController < ApplicationController
+  #before_action :authenticate_user!
+
   def Home
     @page = 1
   end
