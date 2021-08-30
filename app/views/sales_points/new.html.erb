@@ -1,7 +1,5 @@
 
 <div class="row">
-    <div class="col-3">
-    </div>
     <div class="col-5">
 
         <div class="card">
@@ -16,4 +14,33 @@
             </div>
         </div>
     </div>
+    <div class="col-7 border">
+        <div id="map"></div>
+        <style>
+            #map{
+                height: 100%;
+            }
+        </style>
+        
+        <script
+        src="https://maps.googleapis.com/maps/api/js?key=<%= @googleapikey %>&callback=initMap&libraries=&v=weekly"
+        async>
+        </script>
+    </div>
 </div>
+
+<script>
+  let map;
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 34.96044797500092, lng: 138.4044472577484 },
+      zoom: 15,
+    });
+    google.maps.event.addListener(map, 'click', function(event){
+      document.getElementById('latlongclicked').value = event.latLng.lat();
+      document.getElementById('lonlongclicked').value = event.latLng.lng();
+      
+    });
+  }
+</script>

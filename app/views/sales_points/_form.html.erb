@@ -27,23 +27,21 @@
     <%= form.label :capacity,'負荷容量', class:'input-group-prepend col-3 input-group-text' %>
     <%= form.number_field :capacity, class: 'form-control' %>
     <span class="input-group-text">個</span>
-    <%= form.label :status,"ｽﾃｰﾀｽ", class:'input-group-text' %>
+    <%= form.label :status,"状態", class:'input-group-text' %>
     <%= form.select :status, {'無効': 0, '有効': 1}, {class:'form-control', required: true} %>
   </div>
 
   <div class="field input-group mt-1">
     <%= form.label :lat, class:'input-group-prepend col-3 input-group-text' %>
-    <%= form.text_field :lat, class:'form-control' %>
+    <%= form.text_field :lat, class:'form-control', id: 'latlongclicked', value: '' %>
   </div>
 
   <div class="field input-group mt-1">
     <%= form.label :lon, class:'input-group-prepend col-3 input-group-text' %>
-    <%= form.text_field :lon, class:'form-control' %>
+    <%= form.text_field :lon, class:'form-control', id: 'lonlongclicked', value: ''  %>
   </div>
 
-
-
   <div class="actions d-grid gap-2">
-    <%= form.submit class: "btn btn-outline-info mt-1" %>
+    <%= form.submit "登録💾", class: "btn btn-outline-info mt-1" %>
   </div>
 <% end %>

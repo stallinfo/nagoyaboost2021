@@ -12,7 +12,7 @@
         <tr class="text-center">
           <th scope="col">名前</th>
           <th scope="col">詳細</th>
-          <th scope="col">ｽﾃｰﾀｽ</th>
+          <th scope="col">状態</th>
           <th scope="col">Lat</th>
           <th scope="col">Lon</th>
           <th scope="col">Max (個)</th>
@@ -38,9 +38,9 @@
             <td class="text-end"><%= sales_point.lat %></td>
             <td class="text-end"><%= sales_point.lon %></td>
             <td class="text-center"><%= sales_point.capacity %></td>
-            <td><%= link_to 'Show', sales_point %></td>
-            <td><%= link_to 'Edit', edit_sales_point_path(sales_point) %></td>
-            <td><%= link_to 'Destroy', sales_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td class="text-center"><%= link_to '表示', sales_point, class: "btn btn-sm btn-outline-success" %></td>
+            <td class="text-center"><%= link_to '編集', edit_sales_point_path(sales_point), class: "btn btn-sm btn-outline-info" %></td>
+            <td class="text-center"><%= link_to '削除', sales_point, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-danger" %></td>
           </tr>
         <% end %>
       </tbody>

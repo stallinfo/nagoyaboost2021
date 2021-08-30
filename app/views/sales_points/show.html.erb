@@ -1,37 +1,53 @@
-<p>
-  <strong>Name:</strong>
-  <%= @sales_point.name %>
-</p>
+<div class="row bg-white border rounded-bottom rounded-3">
+  <div class="col-12 border">
+    <div class="row bg-light text-center">
+      <div class="col-1 border-top border-start border-bottom text-start">
+        <%= link_to '🔙戻る', sales_points_path, class:"btn btn-outline-primary btn-sm" %>
+      </div>
+      <div class="col-2 border-top border-end border-bottom">
+        名前
+      </div>
+      <div class="col-4 border">
+       詳細
+      </div>
+      <div class="col-1 border">
+       状態
+      </div>
+      <div class="col-3 border">
+       場所
+      </div>
+      <div class="col-1 border">
+        負荷容量(個)
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3 border">
+        <%= link_to '編集', edit_sales_point_path(@sales_point), class:"btn btn-outline-success btn-sm" %>
+        <%= @sales_point.name %>
+      </div>
+      <div class="col-4 border">
+        <%= @sales_point.description %>
+      </div>
+      <div class="col-1 border text-center">
+        <% case @sales_point.status %>
+          <% when 0 then %>
+            無効
+          <% when 1 then %>
+            有効
+          <% else %>
+            Undescribed
+        <% end %>
+      </div>
+      <div class="col-2 text-center border-top border-start border-bottom">
+        <%= @sales_point.lat %>, <%= @sales_point.lon %>
+      </div>
+      <div class="col-1 d-grid gap-2 text-center border-top border-end border-bottom">
+        <button class="btn btn-outline-primary btn-sm">地図</button>
+      </div>
+      <div class="col-1 border text-center">
+        <%= @sales_point.capacity %>
+      </div>
+    </div>
+  </div>
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @sales_point.description %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @sales_point.user_id %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @sales_point.status %>
-</p>
-
-<p>
-  <strong>Lat:</strong>
-  <%= @sales_point.lat %>
-</p>
-
-<p>
-  <strong>Lon:</strong>
-  <%= @sales_point.lon %>
-</p>
-
-<p>
-  <strong>Capacity:</strong>
-  <%= @sales_point.capacity %>
-</p>
-
-<%= link_to 'Edit', edit_sales_point_path(@sales_point) %> |
-<%= link_to 'Back', sales_points_path %>

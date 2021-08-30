@@ -1,6 +1,29 @@
-<h1>Editing Sales Point</h1>
-
-<%= render 'form', sales_point: @sales_point %>
-
-<%= link_to 'Show', @sales_point %> |
-<%= link_to 'Back', sales_points_path %>
+<div class="row">
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>販売ポイント編集✏️</h2>
+            </div>
+            <div class="card-body">
+                <%= render 'form', sales_point: @sales_point %>
+            </div>
+            <div class="card-footer">
+                <%= link_to '👁‍🗨表示', @sales_point, class:"btn btn-outline-success" %>
+                <%= link_to '🔙戻る', sales_points_path, class:"btn btn-outline-primary" %>
+            </div>
+        </div>
+    </div>
+    <div class="col-7">
+    <div id="map"></div>
+        <style>
+            #map{
+                height: 100%;
+            }
+        </style>
+        
+        <script
+        src="https://maps.googleapis.com/maps/api/js?key=<%= @googleapikey %>&callback=initMap&libraries=&v=weekly"
+        async>
+        </script>
+    </div>
+</div>

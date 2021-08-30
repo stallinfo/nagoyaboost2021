@@ -1,7 +1,7 @@
 class SalesPointsController < ApplicationController
   before_action :set_sales_point, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
-  
+
   # GET /sales_points or /sales_points.json
   def index
     @sales_points = current_user.sales_points #SalesPoint.all
@@ -14,10 +14,12 @@ class SalesPointsController < ApplicationController
   # GET /sales_points/new
   def new
     @sales_point = SalesPoint.new
+    @googleapikey = ENV['GOOGLE_API_KEY']
   end
 
   # GET /sales_points/1/edit
   def edit
+    @googleapikey = ENV['GOOGLE_API_KEY']
   end
 
   # POST /sales_points or /sales_points.json
