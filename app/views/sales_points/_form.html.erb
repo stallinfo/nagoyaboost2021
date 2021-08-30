@@ -1,0 +1,49 @@
+<%= form_with(model: sales_point) do |form| %>
+  <% if sales_point.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sales_point.errors.count, "error") %> prohibited this sales_point from being saved:</h2>
+
+      <ul>
+        <% sales_point.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field input-group">
+    <%= form.label :name,"名前" , class:'input-group-prepend col-3 input-group-text', id:'basic-addon1' %>
+    <%= form.text_field :name, class:'form-control' %>
+  </div>
+
+  <div class="field input-group mt-1">
+    <%= form.label :description,"詳細", class:'input-group-prepend col-3 input-group-text' %>
+    <%= form.text_area :description, class:'form-control' %>
+  </div>
+
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div class="field input-group mt-1">
+    <%= form.label :capacity,'負荷容量', class:'input-group-prepend col-3 input-group-text' %>
+    <%= form.number_field :capacity, class: 'form-control' %>
+    <span class="input-group-text">個</span>
+    <%= form.label :status,"ｽﾃｰﾀｽ", class:'input-group-text' %>
+    <%= form.select :status, {'無効': 0, '有効': 1}, {class:'form-control', required: true} %>
+  </div>
+
+  <div class="field input-group mt-1">
+    <%= form.label :lat, class:'input-group-prepend col-3 input-group-text' %>
+    <%= form.text_field :lat, class:'form-control' %>
+  </div>
+
+  <div class="field input-group mt-1">
+    <%= form.label :lon, class:'input-group-prepend col-3 input-group-text' %>
+    <%= form.text_field :lon, class:'form-control' %>
+  </div>
+
+
+
+  <div class="actions d-grid gap-2">
+    <%= form.submit class: "btn btn-outline-info mt-1" %>
+  </div>
+<% end %>

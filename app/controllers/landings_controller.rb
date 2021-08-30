@@ -3,6 +3,7 @@ class LandingsController < ApplicationController
 
   def Home
     @page = 1
+    @sales_points = SalesPoint.all
   end
 
   def ShowMap

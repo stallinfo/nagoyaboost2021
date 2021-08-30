@@ -1,0 +1,53 @@
+
+
+<div class="row bg-white border rounded-bottom rounded-3 text-center">
+  <div class="col-12">
+      <h2>販売ポイント</h2>
+  </div>
+</div>  
+<div class="row bg-white border rounded-bottom rounded-3 mt-1">
+  <div class="col-12">
+    <table class="table table-hover">
+      <thead>
+        <tr class="text-center">
+          <th scope="col">名前</th>
+          <th scope="col">詳細</th>
+          <th scope="col">ｽﾃｰﾀｽ</th>
+          <th scope="col">Lat</th>
+          <th scope="col">Lon</th>
+          <th scope="col">Max (個)</th>
+          <th scope="col" colspan="3">操作</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @sales_points.each do |sales_point| %>
+          <tr>
+            <td><%= sales_point.name %></td>
+            <td><%= sales_point.description %></td>
+            <td class="text-center">
+            <% case sales_point.status %>
+              <% when 0 then %>
+                無効
+              <% when 1 then %>
+                有効
+              <% else %>
+                Undefined
+            <% end %>
+            </td>
+            <td class="text-end"><%= sales_point.lat %></td>
+            <td class="text-end"><%= sales_point.lon %></td>
+            <td class="text-center"><%= sales_point.capacity %></td>
+            <td><%= link_to 'Show', sales_point %></td>
+            <td><%= link_to 'Edit', edit_sales_point_path(sales_point) %></td>
+            <td><%= link_to 'Destroy', sales_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
+    <%= link_to '新規販売ポイント', new_sales_point_path, class: "btn btn-primary mb-1 mt-0"%>
+  </div>
+</div>

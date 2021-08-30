@@ -1,0 +1,37 @@
+<p>
+  <strong>Name:</strong>
+  <%= @sales_point.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @sales_point.description %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @sales_point.user_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @sales_point.status %>
+</p>
+
+<p>
+  <strong>Lat:</strong>
+  <%= @sales_point.lat %>
+</p>
+
+<p>
+  <strong>Lon:</strong>
+  <%= @sales_point.lon %>
+</p>
+
+<p>
+  <strong>Capacity:</strong>
+  <%= @sales_point.capacity %>
+</p>
+
+<%= link_to 'Edit', edit_sales_point_path(@sales_point) %> |
+<%= link_to 'Back', sales_points_path %>

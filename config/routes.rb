@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  
-  
 
   devise_scope :user do 
     get "/sign_up" => "devise/registrations#new", as: "new_user_registration" # sign_up/registration
@@ -12,5 +10,6 @@ Rails.application.routes.draw do
   get 'landings/Home'
   get '/showmap', to: 'landings#ShowMap'
   root 'landings#Home'
-
+  
+  resources :sales_points
 end

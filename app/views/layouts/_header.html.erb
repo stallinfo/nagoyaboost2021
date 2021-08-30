@@ -2,7 +2,7 @@
   <div class="container">
     <a class="navbar-brand" href="<%= root_path %>", style= 'font-family: "HGP行書体"; letter-spacing: -3px; color: #00bFFF;'>
         <%= image_tag("main/stallmarket.png", alt: "booth21logo", size: "30x30", id:"booth21logo") %>
-        無人販売21
+        DSales
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -15,8 +15,12 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <% if user_signed_in? %>
+                <li><a class="dropdown-item" href="<%= sales_points_path %>">🏪無人販売・販売店</li>
+                <li><a class="dropdown-item" href="#">🏷ラベル</li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">👤ﾌﾟﾛﾌｨｰﾙ</li>
+                <li><hr class="dropdown-divider"></li>
                 <li><%= link_to "🕳ログアウト", destroy_user_session_path, :method => :delete, class: "dropdown-item" %></li>
-      
               <% else %>
                 <li><a class="dropdown-item" href="<%= new_user_session_path %>">ログイン</a></li>
                 <li><hr class="dropdown-divider"></li>
