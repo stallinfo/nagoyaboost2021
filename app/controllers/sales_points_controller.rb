@@ -9,6 +9,7 @@ class SalesPointsController < ApplicationController
 
   # GET /sales_points/1 or /sales_points/1.json
   def show
+    @googleapikey = ENV['GOOGLE_API_KEY']
   end
 
   # GET /sales_points/new

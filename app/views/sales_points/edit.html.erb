@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-5">
-        <div class="card">
+        <div class="card shadow">
             <div class="card-header text-center">
                 <h2>販売ポイント編集✏️</h2>
             </div>
@@ -8,13 +8,13 @@
                 <%= render 'form', sales_point: @sales_point %>
             </div>
             <div class="card-footer">
-                <%= link_to '👁‍🗨表示', @sales_point, class:"btn btn-outline-success" %>
                 <%= link_to '🔙戻る', sales_points_path, class:"btn btn-outline-primary" %>
+                <%= link_to '👁‍🗨表示', @sales_point, class:"btn btn-outline-success" %>
             </div>
         </div>
     </div>
     <div class="col-7">
-    <div id="map"></div>
+        <div id="map" class="shadow"></div>
         <style>
             #map{
                 height: 100%;

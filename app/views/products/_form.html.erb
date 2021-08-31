@@ -1,0 +1,37 @@
+<%= form_with(model: product) do |form| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+        <% product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field input-group">
+    <%= form.label :name, "製品名", class:'input-group-prepend col-3 input-group-text', id:'basic-addon1' %>
+    <%= form.text_field :name, class:'form-control'%>
+  </div>
+
+  <div class="field input-group mt-1">
+    <%= form.label :description, "詳細", class:"input-group-prepend col-3 input-group-text", id:"basic-addon1" %>
+    <%= form.text_area :description, class: "form-control" %>
+  </div>
+
+  <div class="field input-group mt-1">
+    <%= form.label :dprice, "ﾃﾞｨﾌｫﾙﾄ価格", class:"input-group-prepend col-3 input-group-text", id:"basic-addon1" %>
+    <%= form.text_field :dprice, class:"form-control" %>
+    <span class="input-group-text">💱</span>
+    <%= form.label :status,"状態", class:'input-group-text' %>
+    <%= form.select :status, {'製造中止': 0, '販売中': 1}, {class:'form-control', required: true} %>
+  </div>
+
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div class="actions d-grid gap-2">
+    <%= form.submit "登録💾", class: "btn btn-outline-info mt-1" %>
+  </div>
+<% end %>

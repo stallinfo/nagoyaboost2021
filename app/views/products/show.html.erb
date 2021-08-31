@@ -1,0 +1,43 @@
+<div class="row bg-white border rounded-bottom rounded-3 shadow">
+  <div class="col-12 border">
+    <div class="row bg-light text-center">
+      <div class="col-1 border-top border-start border-bottom text-start">
+        <%= link_to '🔙戻る', products_path, class:"btn btn-outline-primary btn-sm" %>
+      </div>
+      <div class="col-2 border-top border-end border-bottom">
+        製品名
+      </div>
+      <div class="col-5 border">
+        詳細
+      </div>
+      <div class="col-2 border">
+        状態
+      </div>
+      <div class="col-2 border">
+        ﾃﾞｨﾌｫﾙﾄ価格
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3 border">
+        <%= link_to '編集', edit_product_path(@product), class:"btn btn-outline-success btn-sm" %>
+        <%= @product.name %>
+      </div>
+      <div class="col-5 border">
+        <%= @product.description %>
+      </div>
+      <div class="col-2 border">
+        <% case @product.status %>
+          <% when 0 then %>
+            製造中止
+          <% when 1 then %>
+            販売中
+          <% else %>
+            Undescribed
+        <% end %>
+      </div>
+      <div class="col-2 border text-end">
+        <%= @product.dprice %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="row bg-white border rounded-bottom rounded-3 text-center shadow">
+  <div class="col-12">
+      <h2>🍱製品</h2>
+  </div>
+</div>  
+<div class="row bg-white border rounded-bottom rounded-3 mt-1 shadow">
+  <div class="col-12">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>製品名</th>
+          <th>詳細</th>
+          <th>販売中/中止</th>
+          <th>ﾃﾞｨﾌｫﾙﾄ価格</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= product.name %></td>
+            <td><%= product.description %></td>
+            <td><%= product.status %></td>
+            <td><%= product.dprice %></td>
+            <td><%= link_to '表示', product, class:"btn btn-outline-info btn-sm" %></td>
+            <td><%= link_to '編集', edit_product_path(product), class:"btn btn-outline-success btn-sm" %></td>
+            <td><%= link_to '削除', product, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger btn-sm" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to '新規製品', new_product_path, class:"btn btn-outline-primary mb-1" %>
+  </div>
+</div>
+

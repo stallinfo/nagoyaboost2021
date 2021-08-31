@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-3">
+    </div>
+    <div class="col-6">
+        <div class="card shadow">
+            <div class="card-header text-center">
+                <h2>製品編集</h2>
+            </div>
+            <div class="card-body">
+                <%= render 'form', product: @product %>
+            </div>
+            <div class="card-footer">
+                <%= link_to '🔙戻る', products_path, class:"btn btn-outline-primary" %>
+                <%= link_to '👁‍🗨表示', @product, class:"btn btn-outline-success" %>
+            </div>
+        </div>
+    </div>
+</div>
