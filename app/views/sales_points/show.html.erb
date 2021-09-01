@@ -1,5 +1,10 @@
 <div class="row bg-white border rounded-bottom rounded-3 shadow">
   <div class="col-12 border">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2>販売ポイント</h2>
+      </div>
+    </div>
     <div class="row bg-light text-center">
       <div class="col-1 border-top border-start border-bottom text-start">
         <%= link_to '🔙戻る', sales_points_path, class:"btn btn-outline-primary btn-sm" %>
@@ -50,6 +55,80 @@
     </div>
   </div>
 </div>
+<div class="row bg-white border rounded-bottom rounded-3 shadow">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12 text-center border-bottom">
+        <h3>製品一覧</h3>
+      </div>
+    </div>
+    <div class="row border-bottom bg-light">
+      <div class="col-1 text-center">
+        <strong>№</strong>
+      </div>
+      <div class="col-2 border-start text-center">
+        <strong>製品名</strong>
+      </div>
+      <div class="col-4 border-start text-center">
+        <strong>詳細</strong>
+      </div>
+      <div class="col-2 border-start text-center">
+        <strong>価格</strong>
+      </div>
+      <div class="col-1 border-start text-center">
+        <strong>状態</strong>
+      </div>
+      <div class="col-2 border-start text-center">
+        <strong></strong>
+      </div>
+    </div>
+    <% counter = 1 %>
+    <% @sales_point.sales_product_relations.each do |sales_product_relation| %>
+      <% product = Product.find(sales_product_relation.product_id) %>
+      <div class="row border-bottom">
+        <div class="col-1 text-center">
+          <%= counter %>
+          <% counter += 1 %>
+        </div>
+        <div class="col-2 border-start">
+          <%= product.name %>
+        </div>
+        <div class="col-4 border-start">
+          <%= product.description %>
+        </div>
+        <div class="col-2 border-start text-end">
+          <%= sales_product_relation.price %>
+        </div> 
+        <div class="col-1 border-start text-center">
+          <% case product.status %>
+            <% when 0 then %>
+              製造中止
+            <% when 1 then %>
+              販売中
+            <% else %>
+              undefined
+          <% end %>
+        </div>
+        <div class="col-2 border-start text-center">
+          <td><button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#productedit<%= sales_product_relation.id %>">編集</button></td>
+          <td class="text-center"><%= link_to '削除', delete_sales_product_relation_path(:id => sales_product_relation.id), class: "btn btn-sm btn-outline-danger", role: "button", method: :delete, data: { confirm: "Are you sure?" } %></td>
+        </div>
+      </div>
+    <% end %>
+    <div class="row mt-1 mb-1">
+      <div class="col-2">
+        <% if @product_choices.count > 0 %>
+          <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#productadd">製品追加</button>
+        <% end %>
+      </div>
+      <div class="col-10">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="mapModal<%=@sales_point.id%>" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
@@ -92,3 +171,70 @@
     });
   }
 </script>
+
+<div class="modal fade" id="productadd" tabindex="-1" aria-labelledby="productAddLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mapModalLabel">製品追加</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <%= form_for(:sales_product_relation, url: add_sales_product_relation_path) do |f| %>
+          <div class="field input-group mt-1">
+            <%= f.label :price, "価格",class:'input-group-prepend col-3 input-group-text' %>
+            <%= f.text_field :price, class:'form-control' %>
+            <span class="input-group-text">💱</span>
+            <%= f.label :product_id,"商品名", class:'input-group-text' %>
+            <%= f.select :product_id, @product_choices, {class:'form-control', required: true} %>
+          </div>
+
+          <%= f.hidden_field :sales_point_id, value: @sales_point.id %>
+
+          <div class="actions d-grid gap-2 mt-1">
+            <%= f.submit "追加", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% modif_product = {} %>
+<% @sales_point.sales_product_relations.each do |sales_product_relation| %>
+  <% modif_product[sales_product_relation.id] = {} %>
+  <% product = Product.find(sales_product_relation.product_id) %>
+  <% selected_product = {} %>
+  <% selected_product[product.name] = product.id %>
+  <% modif_product[sales_product_relation.id][product.name] = product.id %>
+  <% @product_choices.each do |key, value| %>
+    <% modif_product[sales_product_relation.id][key] = value %>
+  <% end %>
+  <div class="modal fade" id="productedit<%= sales_product_relation.id %>" tabindex="-1" aria-labelledby="productEditLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mapModalLabel">内容製品編集</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_for(:sales_product_relation, url: edit_sales_product_relation_path) do |f| %>
+            <div class="field input-group mt-1">
+              <%= f.label :price, "価格",class:'input-group-prepend col-3 input-group-text' %>
+              <%= f.text_field :price, class:'form-control', value: sales_product_relation.price %>
+              <span class="input-group-text">💱</span>
+              <%= f.label :product_id,"商品名", class:'input-group-text' %>
+              <%= f.select :product_id, modif_product[sales_product_relation.id], {class:'form-control', required: true} %>
+            </div>
+
+            <%= f.hidden_field :id, value: sales_product_relation.id %>
+            
+            <div class="actions d-grid gap-2 mt-1">
+              <%= f.submit "登録", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

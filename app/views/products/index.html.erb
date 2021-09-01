@@ -21,7 +21,14 @@
           <tr>
             <td><%= product.name %></td>
             <td><%= product.description %></td>
-            <td><%= product.status %></td>
+            <% case product.status %>
+              <% when 0 then %>
+                <td>製造中止</td>
+              <% when 1 then %>
+                <td>販売中</td>
+              <% else %>
+                <td>undefined</td>
+            <% end %>
             <td><%= product.dprice %></td>
             <td><%= link_to '表示', product, class:"btn btn-outline-info btn-sm" %></td>
             <td><%= link_to '編集', edit_product_path(product), class:"btn btn-outline-success btn-sm" %></td>

@@ -10,11 +10,25 @@ class SalesPointsController < ApplicationController
   # GET /sales_points/1 or /sales_points/1.json
   def show
     @googleapikey = ENV['GOOGLE_API_KEY']
+    sprs = SalesProductRelation.where("sales_point_id=?",@sales_point.id)
+    @product_choices = {}
+    current_user.products.each do |product|
+      exist = false
+      sprs.each do |spr|
+        if product.id == spr.product_id
+          exist = true
+        end
+      end
+      if exist == false 
+        @product_choices[product.name] = product.id
+      end
+    end
   end
 
   # GET /sales_points/new
   def new
     @sales_point = SalesPoint.new
+    @sales_product_relation = SalesProductRelation.new
     @googleapikey = ENV['GOOGLE_API_KEY']
   end
 
@@ -60,6 +74,35 @@ class SalesPointsController < ApplicationController
     end
   end
 
+  def add_sales_product_relation
+    sales_point_id = sales_product_relation_params['sales_point_id']
+    product_id = sales_product_relation_params['product_id']
+    price = sales_product_relation_params['price'].to_d
+
+    @sales_point = SalesPoint.find(sales_point_id)
+    @product = Product.find(product_id)
+    if price <= 0 
+      price = @product.dprice
+    end
+
+    SalesProductRelation.create(sales_point_id: sales_point_id, product_id: product_id, price: price)
+    redirect_to @sales_point
+  end
+
+  def edit_sales_product_relation
+    sales_product_relation = SalesProductRelation.find(sales_product_relation_params['id'])
+    @sales_point = SalesPoint.find(sales_product_relation.sales_point_id)
+    sales_product_relation.update(price: sales_product_relation_params['price'].to_d, product_id: sales_product_relation_params['product_id'].to_i)
+    redirect_to @sales_point
+  end
+  
+  def delete_sales_product_relation
+    sales_product_relation = SalesProductRelation.find(params[:id])
+    @sales_point = SalesPoint.find(sales_product_relation.sales_point_id)
+    sales_product_relation.destroy
+    redirect_to @sales_point
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sales_point
@@ -70,4 +113,9 @@ class SalesPointsController < ApplicationController
     def sales_point_params
       params.require(:sales_point).permit(:name, :description, :user_id, :status, :lat, :lon, :capacity)
     end
+
+    def sales_product_relation_params
+      params.require(:sales_product_relation).permit(:price, :product_id, :sales_point_id, :id)
+    end
+
 end

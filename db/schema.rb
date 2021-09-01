@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_31_062536) do
+ActiveRecord::Schema.define(version: 2021_09_01_010645) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2021_08_31_062536) do
     t.integer "product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "price"
     t.index ["product_id"], name: "index_sales_product_relations_on_product_id"
     t.index ["sales_point_id"], name: "index_sales_product_relations_on_sales_point_id"
   end
