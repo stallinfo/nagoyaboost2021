@@ -32,14 +32,19 @@
   let map;
 
   function initMap() {
+    const myLatLng = { lat: <%=@sales_point.lat%>, lng: <%=@sales_point.lon%> };
     map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 34.96044797500092, lng: 138.4044472577484 },
+      center: myLatLng,
       zoom: 15,
+    });
+    new google.maps.Marker({
+    position: myLatLng,
+    map,
+    title: "<%=@sales_point.description%>",
     });
     google.maps.event.addListener(map, 'click', function(event){
       document.getElementById('latlongclicked').value = event.latLng.lat();
       document.getElementById('lonlongclicked').value = event.latLng.lng();
-      
     });
   }
 </script>
