@@ -63,10 +63,7 @@
       </div>
     </div>
     <div class="row border-bottom bg-light">
-      <div class="col-1 text-center">
-        <strong>№</strong>
-      </div>
-      <div class="col-2 border-start text-center">
+      <div class="col-2 text-center">
         <strong>製品名</strong>
       </div>
       <div class="col-4 border-start text-center">
@@ -78,6 +75,9 @@
       <div class="col-1 border-start text-center">
         <strong>状態</strong>
       </div>
+      <div class="col-1 border-start text-center">
+        <strong>在庫</strong>
+      </div>
       <div class="col-2 border-start text-center">
         <strong></strong>
       </div>
@@ -86,11 +86,7 @@
     <% @sales_point.sales_product_relations.each do |sales_product_relation| %>
       <% product = Product.find(sales_product_relation.product_id) %>
       <div class="row border-bottom">
-        <div class="col-1 text-center">
-          <%= counter %>
-          <% counter += 1 %>
-        </div>
-        <div class="col-2 border-start">
+        <div class="col-2">
           <%= product.name %>
         </div>
         <div class="col-4 border-start">
@@ -108,6 +104,9 @@
             <% else %>
               undefined
           <% end %>
+        </div>
+        <div class="col-1 border-start text-center">
+          n/a
         </div>
         <div class="col-2 border-start text-center">
           <td><button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#productedit<%= sales_product_relation.id %>">編集</button></td>
@@ -200,6 +199,7 @@
     </div>
   </div>
 </div>
+
 <% modif_product = {} %>
 <% @sales_point.sales_product_relations.each do |sales_product_relation| %>
   <% modif_product[sales_product_relation.id] = {} %>
@@ -228,7 +228,7 @@
             </div>
 
             <%= f.hidden_field :id, value: sales_product_relation.id %>
-            
+
             <div class="actions d-grid gap-2 mt-1">
               <%= f.submit "登録", class: "btn btn-primary" %>
             </div>
