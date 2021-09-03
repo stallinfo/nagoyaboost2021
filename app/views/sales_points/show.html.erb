@@ -7,7 +7,11 @@
     </div>
     <div class="row bg-light text-center">
       <div class="col-1 border-top border-start border-bottom text-start">
-        <%= link_to '🔙戻る', sales_points_path, class:"btn btn-outline-primary btn-sm" %>
+        <% if @editable %>
+          <%= link_to '🔙戻る', sales_points_path, class:"btn btn-outline-primary btn-sm" %>
+        <% else %>
+          <%= link_to '🔙戻る', root_path, class:"btn btn-outline-primary btn-sm" %>
+        <% end %>
       </div>
       <div class="col-2 border-top border-end border-bottom">
         名前
@@ -27,7 +31,9 @@
     </div>
     <div class="row">
       <div class="col-3 border">
-        <%= link_to '編集', edit_sales_point_path(@sales_point), class:"btn btn-outline-success btn-sm" %>
+        <% if @editable %>
+          <%= link_to '編集', edit_sales_point_path(@sales_point), class:"btn btn-outline-success btn-sm" %>
+        <% end %>
         <%= @sales_point.name %>
       </div>
       <div class="col-4 border">
@@ -109,14 +115,16 @@
           n/a
         </div>
         <div class="col-2 border-start text-center">
-          <td><button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#productedit<%= sales_product_relation.id %>">編集</button></td>
-          <td class="text-center"><%= link_to '削除', delete_sales_product_relation_path(:id => sales_product_relation.id), class: "btn btn-sm btn-outline-danger", role: "button", method: :delete, data: { confirm: "Are you sure?" } %></td>
+          <% if @editable %>
+            <td><button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#productedit<%= sales_product_relation.id %>">編集</button></td>
+            <td class="text-center"><%= link_to '削除', delete_sales_product_relation_path(:id => sales_product_relation.id), class: "btn btn-sm btn-outline-danger", role: "button", method: :delete, data: { confirm: "Are you sure?" } %></td>
+          <% end %>
         </div>
       </div>
     <% end %>
     <div class="row mt-1 mb-1">
       <div class="col-2">
-        <% if @product_choices.count > 0 %>
+        <% if @product_choices.count > 0 && @editable %>
           <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#productadd">製品追加</button>
         <% end %>
       </div>

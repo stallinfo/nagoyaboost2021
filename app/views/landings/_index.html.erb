@@ -16,8 +16,7 @@
         <td><%=sales_point.name %></td>
         <td class="text-center"><%= sales_point.updated_at %></td>
         <td>
-            <button type="button" class="btn btn-primary btn-sm">詳細</button>
-            <button type="button" class="btn btn-primary btn-sm">🌎</button>
+            <%= link_to '詳細', showsalespoint_path(:id => sales_point.id), class:"btn btn-primary btn-sm" %>
         </td>
       </tr>
     <% end %>

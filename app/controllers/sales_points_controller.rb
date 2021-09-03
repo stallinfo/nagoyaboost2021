@@ -10,6 +10,7 @@ class SalesPointsController < ApplicationController
   # GET /sales_points/1 or /sales_points/1.json
   def show
     @googleapikey = ENV['GOOGLE_API_KEY']
+    @editable = true
     sprs = SalesProductRelation.where("sales_point_id=?",@sales_point.id)
     @product_choices = {}
     current_user.products.each do |product|

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   get 'landings/Home'
   get '/showmap', to: 'landings#ShowMap'
+  get '/showsalespoint', to: 'landings#ShowSalesPoint'
   root 'landings#Home'
   
   resources :sales_points
