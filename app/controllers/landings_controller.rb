@@ -9,6 +9,7 @@ class LandingsController < ApplicationController
   def ShowMap
     @page = 2
     @googleapikey = ENV['GOOGLE_API_KEY']
+    @sales_points = SalesPoint.all
     render 'Home'
   end
 end

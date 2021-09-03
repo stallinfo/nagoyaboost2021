@@ -2,7 +2,7 @@
 
 <div class="row bg-white border rounded-bottom rounded-3 text-center shadow">
   <div class="col-12">
-      <h2>販売ポイント</h2>
+      <h2>販売店</h2>
   </div>
 </div>  
 <div class="row bg-white border rounded-bottom rounded-3 mt-1 shadow">
@@ -39,7 +39,7 @@
             <td class="text-end"><%= sales_point.lon %></td>
             <td class="text-center"><%= sales_point.capacity %></td>
             <td class="text-center"><%= link_to '表示', sales_point, class: "btn btn-sm btn-outline-success" %></td>
-            <td class="text-center"><%= link_to '編集', edit_sales_point_path(sales_point), class: "btn btn-sm btn-outline-info" %></td>
+            <td class="text-center"><%= link_to '編集', edit_sales_point_path(sales_point), 'data-no-turbolink' => true, class: "btn btn-sm btn-outline-info" %></td>
             <td class="text-center"><%= link_to '削除', sales_point, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-danger" %></td>
           </tr>
         <% end %>
