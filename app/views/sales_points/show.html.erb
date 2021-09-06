@@ -242,6 +242,11 @@
             </div>
           <% end %>
         </div>
+        <% if product.image.attached? %>
+        <div class="modal-footer">
+          <%= image_tag product.image, style: 'height: 300px; width:auto;', class:"rounded mx-auto d-block" %>
+        </div>
+        <% end %>
       </div>
     </div>
   </div>
