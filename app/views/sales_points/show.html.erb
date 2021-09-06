@@ -252,7 +252,7 @@
         <% end %>
         <div class="modal-footer">
           <% if product.image.attached? %>  
-            <%= image_tag product.image, style: 'height: 300px; width:auto;', class:"rounded mx-auto d-block" %>
+            <%= image_tag product.image, style: 'width: 100%; height: auto;', class:"rounded mx-auto d-block" %>
           <% else %>
             <h5>写真無し</h5>
           <% end %>
