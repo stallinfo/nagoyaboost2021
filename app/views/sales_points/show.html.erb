@@ -115,9 +115,11 @@
           n/a
         </div>
         <div class="col-2 border-start text-center">
-          <% if @editable %>
+          <% if @editable %>  
             <td><button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#productedit<%= sales_product_relation.id %>">編集</button></td>
             <td class="text-center"><%= link_to '削除', delete_sales_product_relation_path(:id => sales_product_relation.id), class: "btn btn-sm btn-outline-danger", role: "button", method: :delete, data: { confirm: "Are you sure?" } %></td>
+          <% else %>
+            <td><button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#productedit<%= sales_product_relation.id %>">写真</button></td>
           <% end %>
         </div>
       </div>
@@ -225,28 +227,32 @@
           <h5 class="modal-title" id="mapModalLabel">内容製品編集</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <%= form_for(:sales_product_relation, url: edit_sales_product_relation_path) do |f| %>
-            <div class="field input-group mt-1">
-              <%= f.label :price, "価格",class:'input-group-prepend col-3 input-group-text' %>
-              <%= f.text_field :price, class:'form-control', value: sales_product_relation.price %>
-              <span class="input-group-text">💱</span>
-              <%= f.label :product_id,"商品名", class:'input-group-text' %>
-              <%= f.select :product_id, modif_product[sales_product_relation.id], {class:'form-control', required: true} %>
-            </div>
+        <% if @editable %>
+          <div class="modal-body">
+            <%= form_for(:sales_product_relation, url: edit_sales_product_relation_path) do |f| %>
+              <div class="field input-group mt-1">
+                <%= f.label :price, "価格",class:'input-group-prepend col-3 input-group-text' %>
+                <%= f.text_field :price, class:'form-control', value: sales_product_relation.price %>
+                <span class="input-group-text">💱</span>
+                <%= f.label :product_id,"商品名", class:'input-group-text' %>
+                <%= f.select :product_id, modif_product[sales_product_relation.id], {class:'form-control', required: true} %>
+              </div>
 
-            <%= f.hidden_field :id, value: sales_product_relation.id %>
+              <%= f.hidden_field :id, value: sales_product_relation.id %>
 
-            <div class="actions d-grid gap-2 mt-1">
-              <%= f.submit "登録", class: "btn btn-primary" %>
-            </div>
+              <div class="actions d-grid gap-2 mt-1">
+                <%= f.submit "登録", class: "btn btn-primary" %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="modal-footer">
+          <% if product.image.attached? %>  
+            <%= image_tag product.image, style: 'height: 300px; width:auto;', class:"rounded mx-auto d-block" %>
+          <% else %>
+            <h5>写真無し</h5>
           <% end %>
         </div>
-        <% if product.image.attached? %>
-        <div class="modal-footer">
-          <%= image_tag product.image, style: 'height: 300px; width:auto;', class:"rounded mx-auto d-block" %>
-        </div>
-        <% end %>
       </div>
     </div>
   </div>
