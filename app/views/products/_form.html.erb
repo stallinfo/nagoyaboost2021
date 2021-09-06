@@ -28,6 +28,11 @@
     <%= form.label :status,"状態", class:'input-group-text' %>
     <%= form.select :status, {'製造中止': 0, '販売中': 1}, {class:'form-control', required: true} %>
   </div>
+  
+  <div class="input-group mb-3 mt-1">
+    <%= form.label :image, "写真", class:"input-group-prepend col-3 input-group-text" %>
+    <%= form.file_field :image, class:"form-control" %>
+  </div>
 
   <%= form.hidden_field :user_id, value: current_user.id %>
 

@@ -24,9 +24,8 @@
   <%= form.hidden_field :user_id, value: current_user.id %>
 
   <div class="field input-group mt-1">
-    <%= form.label :capacity,'負荷容量', class:'input-group-prepend col-3 input-group-text' %>
+    <%= form.label :capacity,'Cap', class:'input-group-prepend col-3 input-group-text' %>
     <%= form.number_field :capacity, class: 'form-control' %>
-    <span class="input-group-text">個</span>
     <%= form.label :status,"状態", class:'input-group-text' %>
     <%= form.select :status, {'無効': 0, '有効': 1}, {class:'form-control', required: true} %>
   </div>

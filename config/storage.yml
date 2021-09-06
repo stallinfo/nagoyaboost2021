@@ -28,6 +28,14 @@ local:
 #   storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
 #   container: your_container_name
 
+ibmcos:
+  service: S3
+  access_key_id: <%= ENV['IBM_ACCESS_KEY_ID'] %>  
+  secret_access_key: <%= ENV['IBM_SECRET_ACCESS_KEY'] %>
+  region: jp-tok
+  bucket: cloud-object-storage-o9-cos-standard-yiu
+  endpoint: https://s3.jp-tok.cloud-object-storage.appdomain.cloud
+
 # mirror:
 #   service: Mirror
 #   primary: local

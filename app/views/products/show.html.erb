@@ -39,5 +39,13 @@
         <%= @product.dprice %>
       </div>
     </div>
+    <% if @product.image.attached? %>
+    <div class="row">
+      <div class="col-12 mt-2 mb-2" >
+        <%= image_tag @product.image, style: 'height: 400px; width:auto;', class:"rounded mx-auto d-block" %>
+      </div>
+    </div>
+    <% end %>
   </div>
 </div>
+

@@ -41,7 +41,6 @@ class SalesPointsController < ApplicationController
   # POST /sales_points or /sales_points.json
   def create
     @sales_point = SalesPoint.new(sales_point_params)
-
     respond_to do |format|
       if @sales_point.save
         format.html { redirect_to @sales_point, notice: "Sales point was successfully created." }
