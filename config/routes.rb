@@ -17,4 +17,7 @@ Rails.application.routes.draw do
   post '/add_sales_product_relation',  to: 'sales_points#add_sales_product_relation'
   post '/edit_sales_product_relation', to: 'sales_points#edit_sales_product_relation'
   delete '/delete_sales_product_relation', to: 'sales_points#delete_sales_product_relation'
+
+  # API
+  get 'apis/salespoints'
 end
