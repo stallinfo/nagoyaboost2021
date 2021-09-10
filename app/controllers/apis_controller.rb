@@ -7,7 +7,6 @@ class ApisController < ApplicationController
       jsonsalespoints[counter] = {}
       jsonsalespoints[counter]["id"] = salespoint.id
       jsonsalespoints[counter]["name"] = salespoint.name
-      #jsonsalespoints[counter]["image"] = rails_blop_path(salespoint.image_path, only_path: true)
       subcounter = 0
       jsonsalespoints[counter]["products"] = []
       salespoint.sales_product_relations.each do |spr|
@@ -23,11 +22,15 @@ class ApisController < ApplicationController
       end
       counter += 1
     end
-    #results = {}
-    #results["salespoints"] = jsonsalespoints
     responseInfo = {status: 200, developerMessage: "All sales points"}
     metadata = {responseInfo: responseInfo}
     jsonString = {metadata: metadata, salespoints: jsonsalespoints}
     render json: jsonString.to_json
+  end
+  
+
+  def apiLogin
+    parameters parameters parameter set_sales_point GOOGLE_API_KEY googleapikey head id
+    parameters
   end
 end
