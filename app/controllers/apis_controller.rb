@@ -30,30 +30,41 @@ class ApisController < ApplicationController
   
 
   def performlogin
-    id = params['id'].to_i
     password = params['password']
-    apikey = params['apikey']
     email = params['email']
     profile = {}
     responseInfo = {}
-    if password != nil && password != ""
+    if password != nil && password != "" 
       user = User.find_by(email: email)
-      if user != nil 
-      
+      if user != nil && user.valid_password?(password)
         #generate apikey
         apikey = SecureRandom.urlsafe_base64
         user.update(apikey: apikey)
-        # debugger
+        #debugger
         profile["apikey"] = apikey
         profile["id"] = user.id
         profile["name"] = user.username
         responseInfo = {status: 201, developerMessage: "New API key generated"}
       else 
         responseInfo = {status: 502, developerMessage: "User not found" } 
-      end 
-    elsif apikey != nil && apikey != ""
+      end
+    else
+      responseInfo = {status: 501, developerMessage: "Error" }  
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, profile: profile}
+    render json: jsonString.to_json
+  end
+
+  def performapikeylogin
+    apikey = params['apikey']
+    id = params['id'].to_i
+    profile = {}
+    responseInfo = {}
+
+    if apikey != nil && apikey != ""
       user = User.find_by(apikey: apikey)
-      if user != nil 
+      if user != nil && user.id == id
         profile["apikey"] = apikey
         profile["id"] = user.id
         profile["name"] = user.username
@@ -62,7 +73,7 @@ class ApisController < ApplicationController
         responseInfo = {status: 503, developerMessage: "Syntax Error" }
       end
     else
-      responseInfo = {status: 501, developerMessage: "Error" }  
+      responseInfo = {status: 501, developerMessage: "Error"}
     end
     metadata = {responseInfo: responseInfo}
     jsonString = {metadata: metadata, profile: profile}
