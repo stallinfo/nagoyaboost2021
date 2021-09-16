@@ -79,4 +79,27 @@ class ApisController < ApplicationController
     jsonString = {metadata: metadata, profile: profile}
     render json: jsonString.to_json
   end
+
+  def changepassword 
+    apikey = params['apikey']
+    email = params['email']
+    password = params['password']
+    profile = {}
+    responseInfo = {}
+    user = User.find_by(apikey: apikey)
+    if user != nil && user.email == email
+      apikey = SecureRandom.urlsafe_base64
+      user.update(password: password, apikey: apikey)
+      profile["apikey"] = apikey
+      profile["id"] = user.id
+      profile["name"] = user.username
+      responseInfo = {status: 200, developerMessage: "Password Changed"}
+    else
+      responseInfo = {status: 504, developerMessage: "Rejected"}
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, profile: profile}
+    render json: jsonString.to_json
+  end
+
 end
