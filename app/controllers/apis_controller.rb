@@ -58,13 +58,13 @@ class ApisController < ApplicationController
 
   def performapikeylogin
     apikey = params['apikey']
-    id = params['id'].to_i
+    email = params['email']
     profile = {}
     responseInfo = {}
 
     if apikey != nil && apikey != ""
       user = User.find_by(apikey: apikey)
-      if user != nil && user.id == id
+      if user != nil && user.email == email
         profile["apikey"] = apikey
         profile["id"] = user.id
         profile["name"] = user.username
