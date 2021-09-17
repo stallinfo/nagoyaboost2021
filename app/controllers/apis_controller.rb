@@ -111,11 +111,15 @@ class ApisController < ApplicationController
     User.create(email: email, username: username, password: password, apikey: apikey)
     profile = {}
     responseInfo = {}
-    user = User.last
-    profile['apikey'] = apikey
-    profile['id'] = user.id
-    profile['name'] = username
-    responseInfo = {status: 200, developerMessage: "User Created"}
+    user = User.find_by(email: email)
+    if user != nil && user.valid_password?(password)
+      profile['apikey'] = apikey
+      profile['id'] = user.id
+      profile['name'] = username
+      responseInfo = {status: 200, developerMessage: "User Created"}
+    else
+      responseInfo = {status: 505, developerMessage: "Registration Failed"}
+    end
     metadata = {responseInfo: responseInfo}
     jsonString = {metadata: metadata, profile: profile}
     render json: jsonString.to_json
