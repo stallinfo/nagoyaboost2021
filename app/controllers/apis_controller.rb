@@ -102,4 +102,22 @@ class ApisController < ApplicationController
     render json: jsonString.to_json
   end
 
+  def submitnewprofile
+    email = params['email']
+    password = params['password']
+    username = params['username']
+    apikey = SecureRandom.urlsafe_base64
+    User.create(email: email username: username, password: passowrd, password_confirmation: password, apikey = apikey)
+    profile = {}
+    responseInfo = {}
+    user = User.last
+    profile['apikey'] = apikey
+    profile['id'] = user.id
+    profile['name'] = username
+    responseInfo = {status: 200, developerMessage = "User Created"}
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, profile: profile}
+    render json: jsonString.to_json
+  end
+
 end
