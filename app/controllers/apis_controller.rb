@@ -107,14 +107,14 @@ class ApisController < ApplicationController
     password = params['password']
     username = params['username']
     apikey = SecureRandom.urlsafe_base64
-    User.create(email: email username: username, password: passowrd, password_confirmation: password, apikey = apikey)
+    User.create(email: email, username: username, password: password, apikey: apikey)
     profile = {}
     responseInfo = {}
     user = User.last
     profile['apikey'] = apikey
     profile['id'] = user.id
     profile['name'] = username
-    responseInfo = {status: 200, developerMessage = "User Created"}
+    responseInfo = {status: 200, developerMessage: "User Created"}
     metadata = {responseInfo: responseInfo}
     jsonString = {metadata: metadata, profile: profile}
     render json: jsonString.to_json
