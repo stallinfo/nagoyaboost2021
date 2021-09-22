@@ -17,6 +17,10 @@ class ApisController < ApplicationController
         product = Product.find(spr.product_id)
         jsonsalespoints[counter]["products"][subcounter] = {}
         jsonsalespoints[counter]["products"][subcounter]["id"] = product.id
+        jsonsalespoints[counter]["products"][subcounter]["name"] = product.name
+        jsonsalespoints[counter]["products"][subcounter]["description"] = product.description
+        jsonsalespoints[counter]["products"][subcounter]["status"] = product.status
+        jsonsalespoints[counter]["products"][subcounter]["price"] = spr.price.to_f
         if product.image.attached?
           jsonsalespoints[counter]["products"][subcounter]["image"] = rails_blob_path(product.image, only_path: true)
         else
