@@ -8,8 +8,8 @@ class ApisController < ApplicationController
       jsonsalespoints[counter] = {}
       jsonsalespoints[counter]["id"] = salespoint.id
       jsonsalespoints[counter]["name"] = salespoint.name
-      jsonsalespoints[counter]["lat"] = salespoint.lat
-      jsonsalespoints[counter]["lon"] = salespoint.lon
+      jsonsalespoints[counter]["lat"] = salespoint.lat.to_d
+      jsonsalespoints[counter]["lon"] = salespoint.lon.to_d
       jsonsalespoints[counter]["status"] = salespoint.status
       subcounter = 0
       jsonsalespoints[counter]["products"] = []
