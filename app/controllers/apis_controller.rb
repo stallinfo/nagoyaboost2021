@@ -8,6 +8,9 @@ class ApisController < ApplicationController
       jsonsalespoints[counter] = {}
       jsonsalespoints[counter]["id"] = salespoint.id
       jsonsalespoints[counter]["name"] = salespoint.name
+      jsonsalespoints[counter]["lat"] = salespoint.lat
+      jsonsalespoints[counter]["lon"] = salespoint.lon
+      jsonsalespoints[counter]["status"] = salespoint.status
       subcounter = 0
       jsonsalespoints[counter]["products"] = []
       salespoint.sales_product_relations.each do |spr|
@@ -112,7 +115,7 @@ class ApisController < ApplicationController
     profile = {}
     responseInfo = {}
     user = User.find_by(email: email)
-    if user != nil && user.valid_password?(password)
+    if user != nil && user.valid_password?(password) && apikey == user.apikey
       profile['apikey'] = apikey
       profile['id'] = user.id
       profile['name'] = username
