@@ -11,6 +11,7 @@ class ApisController < ApplicationController
       jsonsalespoints[counter]["lat"] = salespoint.lat.to_f
       jsonsalespoints[counter]["lon"] = salespoint.lon.to_f
       jsonsalespoints[counter]["status"] = salespoint.status
+      jsonsalespoints[counter]["user_id"] = salespoint.user_id
       subcounter = 0
       jsonsalespoints[counter]["products"] = []
       salespoint.sales_product_relations.each do |spr|
