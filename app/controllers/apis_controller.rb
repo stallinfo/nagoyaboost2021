@@ -51,7 +51,7 @@ class ApisController < ApplicationController
         user.update(apikey: apikey)
         #debugger
         profile["apikey"] = apikey
-        #profile["id"] = user.id
+        profile["id"] = user.id
         profile["name"] = user.username
         responseInfo = {status: 201, developerMessage: "New API key generated"}
       else 
@@ -61,7 +61,7 @@ class ApisController < ApplicationController
       responseInfo = {status: 501, developerMessage: "Error" }  
     end
     metadata = {responseInfo: responseInfo}
-    jsonString = {metadata: metadata, userprofile: profile}
+    jsonString = {metadata: metadata, profile: profile}
     render json: jsonString.to_json
   end
 
