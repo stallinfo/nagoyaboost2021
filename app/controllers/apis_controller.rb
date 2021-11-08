@@ -61,7 +61,7 @@ class ApisController < ApplicationController
       responseInfo = {status: 501, developerMessage: "Error" }  
     end
     metadata = {responseInfo: responseInfo}
-    jsonString = {metadata: metadata, profile: profile}
+    jsonString = {metadata: metadata, userprofile: profile}
     render json: jsonString.to_json
   end
 
@@ -131,6 +131,19 @@ class ApisController < ApplicationController
     metadata = {responseInfo: responseInfo}
     jsonString = {metadata: metadata, profile: profile}
     render json: jsonString.to_json
+  end
+
+  def updateStocks
+    apikey = params['apikey']
+    sales_points_id = params['sp_id']
+    product_id = params['product_id']
+    email = params['email']
+    user = User.find_by(email: email)
+    if user.apikey == apikey
+     # update record
+    else
+      # return error
+    end
   end
 
 end
