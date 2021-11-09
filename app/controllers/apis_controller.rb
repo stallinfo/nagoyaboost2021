@@ -158,6 +158,11 @@ class ApisController < ApplicationController
           jsonProductRelation["p_name"] = product.name
           jsonProductRelation["stock"] = product_relation.stock
           jsonProductRelation["price"] = product_relation.price
+          if product.image.attached?
+            jsonProductRelation["image"] = rails_blob_path(product.image, only_path: true)
+          else
+            jsonProductRelation["image"] = "empty"
+          end
           jsonProductRelations.append(jsonProductRelation)
         end
       end
