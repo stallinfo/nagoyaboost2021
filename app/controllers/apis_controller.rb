@@ -141,30 +141,34 @@ class ApisController < ApplicationController
     stock = params['stock'].to_i
     user = User.find_by(email: email)
     products = []
-    if user.apikey == apikey
-      product = Product.find_by(name: product_name)
+    product = Product.find_by(name: product_name)
+    if user.apikey == apikey && product
       spr = SalesProductRelation.where("sales_point_id=? AND product_id=? ", sales_point_id, product.id).first
       sp = SalesPoint.find(sales_point_id)
-      spr.update(stock: stock)
-      responseInfo = {status: 202, developerMessage: "Product #{product.name} stock is updated to #{stock}"}
-      product_relations = sp.sales_product_relations
-      jsonProductRelations = []
-      product_relations.each do |product_relation|
-        if !product_relation.stock
-          product_relation.update(stock: 0)
-        elsif product_relation.stock > 0
-          jsonProductRelation = {}
-          product = Product.find(product_relation.product_id)
-          jsonProductRelation["p_name"] = product.name
-          jsonProductRelation["stock"] = product_relation.stock
-          jsonProductRelation["price"] = product_relation.price
-          if product.image.attached?
-            jsonProductRelation["image"] = rails_blob_path(product.image, only_path: true)
-          else
-            jsonProductRelation["image"] = "empty"
+      if spr 
+        spr.update(stock: stock)
+        responseInfo = {status: 202, developerMessage: "Product #{product.name} stock is updated to #{stock}"}
+        product_relations = sp.sales_product_relations
+        jsonProductRelations = []
+        product_relations.each do |product_relation|
+          if !product_relation.stock
+            product_relation.update(stock: 0)
+          elsif product_relation.stock > 0
+            jsonProductRelation = {}
+            product = Product.find(product_relation.product_id)
+            jsonProductRelation["p_name"] = product.name
+            jsonProductRelation["stock"] = product_relation.stock
+            jsonProductRelation["price"] = product_relation.price
+            if product.image.attached?
+              jsonProductRelation["image"] = rails_blob_path(product.image, only_path: true)
+            else
+              jsonProductRelation["image"] = "empty"
+            end
+            jsonProductRelations.append(jsonProductRelation)
           end
-          jsonProductRelations.append(jsonProductRelation)
         end
+      else
+        responseInfo = {status: 507, developerMessage: "Product #{product_name} not found in #{sp.name}"}
       end
     else
       responseInfo = {status: 506, developerMessage: "Product update failed"}
