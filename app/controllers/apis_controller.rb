@@ -133,17 +133,40 @@ class ApisController < ApplicationController
     render json: jsonString.to_json
   end
 
-  def updateStocks
+  def updatestock
     apikey = params['apikey']
-    sales_points_id = params['sp_id']
-    product_id = params['product_id']
+    sales_point_id = params['sp_id'].to_i
+    product_name = params['p_name']
     email = params['email']
+    stock = params['stock'].to_i
     user = User.find_by(email: email)
+    products = []
     if user.apikey == apikey
-     # update record
+      product = Product.find_by(name: product_name)
+      spr = SalesProductRelation.where("sales_point_id=? AND product_id=? ", sales_point_id, product.id).first
+      sp = SalesPoint.find(sales_point_id)
+      spr.update(stock: stock)
+      responseInfo = {status: 202, developerMessage: "Product #{product.name} stock is updated to #{stock}"}
+      product_relations = sp.sales_product_relations
+      jsonProductRelations = []
+      product_relations.each do |product_relation|
+        if !product_relation.stock
+          product_relation.update(stock: 0)
+        elsif product_relation.stock > 0
+          jsonProductRelation = {}
+          product = Product.find(product_relation.product_id)
+          jsonProductRelation["p_name"] = product.name
+          jsonProductRelation["stock"] = product_relation.stock
+          jsonProductRelation["price"] = product_relation.price
+          jsonProductRelations.append(jsonProductRelation)
+        end
+      end
     else
-      # return error
+      responseInfo = {status: 506, developerMessage: "Product update failed"}
     end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, products: jsonProductRelations}
+    render json: jsonString.to_json
   end
 
 end
