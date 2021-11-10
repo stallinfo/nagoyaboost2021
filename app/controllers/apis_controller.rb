@@ -47,8 +47,12 @@ class ApisController < ApplicationController
       user = User.find_by(email: email)
       if user != nil && user.valid_password?(password)
         #generate apikey
-        apikey = SecureRandom.urlsafe_base64
-        user.update(apikey: apikey)
+        #temporary remark
+        if !user.apikey
+          apikey = SecureRandom.urlsafe_base64
+          user.update(apikey: apikey)
+        end
+        #-- end of temporary remark
         #debugger
         profile["apikey"] = apikey
         profile["id"] = user.id

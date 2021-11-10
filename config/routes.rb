@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get 'apis/performapikeylogin'
   get 'apis/changepassword'
   post 'apis/submitnewprofile'
-  get 'apis/updatestock'
+  post 'apis/updatestock'
   #get 'apis/submitnewprofile'
 
 end
