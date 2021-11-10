@@ -51,6 +51,8 @@ class ApisController < ApplicationController
         if !user.apikey
           apikey = SecureRandom.urlsafe_base64
           user.update(apikey: apikey)
+        else
+          apikey = user.apikey
         end
         #-- end of temporary remark
         #debugger
