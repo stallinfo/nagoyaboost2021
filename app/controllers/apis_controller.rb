@@ -51,12 +51,10 @@ class ApisController < ApplicationController
         if !user.apikey
           apikey = SecureRandom.urlsafe_base64
           user.update(apikey: apikey)
-        else
-          apikey = user.apikey
         end
         #-- end of temporary remark
         #debugger
-        profile["apikey"] = apikey
+        profile["apikey"] = user.apikey
         profile["id"] = user.id
         profile["name"] = user.username
         responseInfo = {status: 201, developerMessage: "New API key generated"}
