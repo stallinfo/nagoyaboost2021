@@ -182,4 +182,39 @@ class ApisController < ApplicationController
     render json: jsonString.to_json
   end
 
+  def currentstockallsp
+    email = params['email']
+    apikey = params['apikey']
+    user = User.find_by(email: email)
+    jsonProductRelations = []
+    jsonProductRelation = {}
+    if user && user.apikey == apikey
+      responseInfo = {status: 202, developerMessage: "Current all sales points"}
+      sps = user.sales_points
+      sps.each do |sp|
+        sp.sales_product_relations.each do |spr|
+          product = Product.find(spr.product_id)
+          if spr.stock && spr.stock > 0 && product
+            jsonProductRelation["sp_id"] = sp.id
+            jsonProductRelation["p_name"] = product.name
+            jsonProductRelation["stock"] = spr.stock
+            jsonProductRelation["price"] = spr.price
+            jsonProductRelations.append(jsonProductRelation)
+            if product.image.attached?
+              jsonProductRelation["image"] = rails_blob_path(product.image, only_path: true)
+            else
+              jsonProductRelation["image"] = "empty"
+            end
+          end
+        end
+      end
+    else
+      responseInfo = {status: 504, developerMessage: "Authentification failed"}
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, products: jsonProductRelations}
+    render json: jsonString.to_json
+
+  end
+
 end
