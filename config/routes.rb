@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   post 'apis/submitnewprofile'
   post 'apis/updatestock'
   get 'apis/currentstockallsp'
+  get 'apis/currentstocksp'
   #get 'apis/submitnewprofile'
 
 end
