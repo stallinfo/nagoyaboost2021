@@ -194,17 +194,18 @@ class ApisController < ApplicationController
       sps.each do |sp|
         sp.sales_product_relations.each do |spr|
           product = Product.find(spr.product_id)
+          jsonProductRelation = {}
           if spr.stock && spr.stock > 0 && product
             jsonProductRelation["sp_id"] = sp.id
             jsonProductRelation["p_name"] = product.name
             jsonProductRelation["stock"] = spr.stock
             jsonProductRelation["price"] = spr.price
-            jsonProductRelations.append(jsonProductRelation)
             if product.image.attached?
               jsonProductRelation["image"] = rails_blob_path(product.image, only_path: true)
             else
               jsonProductRelation["image"] = "empty"
             end
+            jsonProductRelations.append(jsonProductRelation)
           end
         end
       end
