@@ -224,11 +224,11 @@ class ApisController < ApplicationController
     user = User.find_by(email: email)
     sp = SalesPoint.find(sp_id)
     jsonProductRelations = []
-    jsonProductRelation = {}
     if user && user.apikey == apikey && sp.user_id == user.id
       responseInfo = {status: 202, developerMessage: "Current #{sp.name}"}
       sp.sales_product_relations.each do |spr|
         product = Product.find(spr.product_id)
+        jsonProductRelation = {}
         if spr.stock && spr.stock > 0 && product
           jsonProductRelation["sp_id"] = sp.id
           jsonProductRelation["p_name"] = product.name
