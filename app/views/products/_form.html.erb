@@ -26,7 +26,7 @@
     <%= form.text_field :dprice, class:"form-control" %>
     <span class="input-group-text">💱</span>
     <%= form.label :status,"状態", class:'input-group-text' %>
-    <%= form.select :status, {'製造中止': 0, '販売中': 1}, {class:'form-control', required: true} %>
+    <%= form.select :status, {'製造中止': 0, '販売中': 1, '前菜': 2, 'ﾒｲﾝﾃﾞｨｯｼｭ': 3, 'ﾃﾞｻﾞｰﾄ': 4, 'スープ': 5, '飲み物': 6}, {class:'form-control', required: true} %>
   </div>
   
   <div class="input-group mb-3 mt-1">
