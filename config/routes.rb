@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'nb10000apis/mujin_all'
   resources :products
   devise_scope :user do 
     get "/sign_up" => "devise/registrations#new", as: "new_user_registration" # sign_up/registration
