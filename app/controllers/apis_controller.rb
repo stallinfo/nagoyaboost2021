@@ -31,9 +31,31 @@ class ApisController < ApplicationController
       end
       counter += 1
     end
+    setDate = DateTime.now - 2.months
+    products = Product.where("DATE(created_at)>='#{setDate}'")
+    newProducts = []
+    counter = 0
+    products.each do |product|
+      newProduct = {}
+      newProduct["name"] = product.name
+      newProduct["content"] = product.description
+      newProduct["status"] = product.status
+      newProduct["salespoints"] = []
+      
+      product.sales_product_relations.each do |spr|
+        salesPoint = {}
+        sp = SalesPoint.find(spr.sales_point_id)
+        salesPoint["id"] = sp.id
+        salesPoint["lat"] = sp.lat
+        salesPoint["lon"] = sp.lon
+        salesPoint["name"] = sp.name
+        newProduct["salespoints"].push salesPoint
+      end
+      newProducts.push newProduct
+    end
     responseInfo = {status: 200, developerMessage: "All sales points"}
     metadata = {responseInfo: responseInfo}
-    jsonString = {metadata: metadata, salespoints: jsonsalespoints}
+    jsonString = {metadata: metadata, salespoints: jsonsalespoints, newproduct: newProducts}
     render json: jsonString.to_json
   end
   
