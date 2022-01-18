@@ -40,6 +40,8 @@ class ApisController < ApplicationController
       newProduct["name"] = product.name
       newProduct["content"] = product.description
       newProduct["status"] = product.status
+      newProduct["id"] = product.id
+      newProduct["image"] = rails_blob_path(product.image, only_path: true)
       newProduct["salespoints"] = []
       
       product.sales_product_relations.each do |spr|
@@ -55,7 +57,7 @@ class ApisController < ApplicationController
     end
     responseInfo = {status: 200, developerMessage: "All sales points"}
     metadata = {responseInfo: responseInfo}
-    jsonString = {metadata: metadata, salespoints: jsonsalespoints, newproduct: newProducts}
+    jsonString = {metadata: metadata, salespoints: jsonsalespoints, newproducts: newProducts}
     render json: jsonString.to_json
   end
   
