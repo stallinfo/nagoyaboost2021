@@ -52,8 +52,8 @@ class ApisController < ApplicationController
         salesPoint = {}
         sp = SalesPoint.find(spr.sales_point_id)
         salesPoint["id"] = sp.id
-        salesPoint["lat"] = sp.lat
-        salesPoint["lon"] = sp.lon
+        salesPoint["lat"] = sp.lat.to_f
+        salesPoint["lon"] = sp.lon.to_f
         salesPoint["name"] = sp.name
         newProduct["salespoints"].push salesPoint
       end
