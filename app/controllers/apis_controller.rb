@@ -41,7 +41,11 @@ class ApisController < ApplicationController
       newProduct["content"] = product.description
       newProduct["status"] = product.status
       newProduct["id"] = product.id
-      newProduct["image"] = rails_blob_path(product.image, only_path: true)
+      if product.image.attached?
+        newProduct["image"] = rails_blob_path(product.image, only_path: true)
+      else
+        newProduct["image"] = "/noimage.jpg"
+      end
       newProduct["salespoints"] = []
       
       product.sales_product_relations.each do |spr|
