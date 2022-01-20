@@ -107,6 +107,7 @@ GEM
     ffi (1.15.3-java)
     ffi (1.15.3-x64-mingw32)
     ffi (1.15.3-x86-mingw32)
+    geokit (1.13.1)
     globalid (0.5.1)
       activesupport (>= 5.0)
     i18n (1.8.10)
@@ -269,6 +270,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   devise
+  geokit
   jbuilder (~> 2.7)
   jquery-turbolinks
   listen (~> 3.3)

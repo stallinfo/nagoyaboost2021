@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   # API
   get 'apis/salespoints'
+  get 'apis/sales3km'
   get 'apis/performlogin'
   get 'apis/performapikeylogin'
   get 'apis/changepassword'
