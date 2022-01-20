@@ -1,20 +1,21 @@
 class ApisController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  def sales3km
+  def salesdistance
     loc1 = []
     loc2 = []
     jsonSP = []
     salesPoints = SalesPoint.all
     loc1[0] = params["lat"]
     loc1[1] = params["lon"]
+    range = params["range"].to_f * 0.00062137119
     current_location = Geokit::LatLng.new(loc1[0],loc1[1])
     salesPoints.each do |salesPoint|
       loc2[0] = salesPoint.lat
       loc2[1] = salesPoint.lon
       destination = "#{loc2[0]},#{loc2[1]}"
       sp = {}
-      if current_location.distance_to(destination) <= 1.864114 # 3000 meters = 1.864114 miles
+      if current_location.distance_to(destination) <= range #1.864114 # 3000 meters = 1.864114 miles
         sp["id"] = salesPoint.id
         sp["name"] = salesPoint.name
         sp["lat"] = salesPoint.lat
@@ -45,7 +46,7 @@ class ApisController < ApplicationController
       end
 
     end
-    responseInfo = {status: 200, developerMessage: "Sales point within 3km"}
+    responseInfo = {status: 200, developerMessage: "Sales point within #{range} miles"}
     metadata = {responseInfo: responseInfo}
     jsonString = {metadata: metadata, salespoints: jsonSP}
     render json: jsonString.to_json
