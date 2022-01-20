@@ -33,8 +33,7 @@ class ApisController < ApplicationController
             cp["price"] = existProduct.price.to_f
             cp["name"] = product.name
             cp["content"] = product.description
-            t = product.created_at.to_datetime
-            cp["created_at"] = t.to_s
+            cp["created_at"] = product.created_at
             if product.image.attached?
               cp["image"] = rails_blob_path(product.image, only_path: true)
             else
