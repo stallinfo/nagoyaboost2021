@@ -31,5 +31,7 @@ Rails.application.routes.draw do
   get 'apis/currentstockallsp'
   get 'apis/currentstocksp'
   #get 'apis/submitnewprofile'
+  get 'nb10000apis/salesdistance'
+
 
 end
