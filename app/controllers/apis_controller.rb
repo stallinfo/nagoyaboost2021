@@ -373,7 +373,7 @@ class ApisController < ApplicationController
       product['status'] = @product.status
       product['price'] = @product.dprice
       if @product.image.attached?
-        product["image"] = rails_blob_path(product.image, only_path: true)
+        product["image"] = rails_blob_path(@product.image, only_path: true)
       else
         product["image"] = "/noimage.jpg"
       end
@@ -411,6 +411,50 @@ class ApisController < ApplicationController
     jsonString = {metadata: metadata, result: nil}
     render json: jsonString
   end
-  
 
+  def sp_owned
+    user = User.find_by(email: params['email'])
+    jsonsalespoints = []
+    
+    if user && user.apikey == params['apikey']
+      salespoints = SalesPoint.all
+   
+      counter = 0
+      salespoints.each do |salespoint|
+        jsonsalespoints[counter] = {}
+        jsonsalespoints[counter]["id"] = salespoint.id
+        jsonsalespoints[counter]["name"] = salespoint.name
+        jsonsalespoints[counter]["lat"] = salespoint.lat.to_f
+        jsonsalespoints[counter]["lon"] = salespoint.lon.to_f
+        jsonsalespoints[counter]["status"] = salespoint.status
+        jsonsalespoints[counter]["user_id"] = salespoint.user_id
+        subcounter = 0
+        jsonsalespoints[counter]["products"] = []
+        salespoint.sales_product_relations.each do |spr|
+          product = Product.find(spr.product_id)
+          jsonsalespoints[counter]["products"][subcounter] = {}
+          jsonsalespoints[counter]["products"][subcounter]["id"] = product.id
+          jsonsalespoints[counter]["products"][subcounter]["name"] = product.name
+          jsonsalespoints[counter]["products"][subcounter]["description"] = product.description
+          jsonsalespoints[counter]["products"][subcounter]["status"] = product.status
+          jsonsalespoints[counter]["products"][subcounter]["price"] = spr.price.to_f
+          if product.image.attached?
+            jsonsalespoints[counter]["products"][subcounter]["image"] = rails_blob_path(product.image, only_path: true)
+          else
+            jsonsalespoints[counter]["products"][subcounter]["image"] = "no image"
+          end
+          subcounter += 1
+        end
+        counter += 1
+      end
+      
+      responseInfo = {status: 200, developerMessage: "All sales points"}
+      
+    else
+      responseInfo = {status: 504, developerMessage: "Authentification failed"}
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, salespoints: jsonsalespoints}
+    render json: jsonString.to_json
+  end
 end

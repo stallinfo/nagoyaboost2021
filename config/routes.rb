@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   post 'apis/reg_product'
   get 'apis/reg_product'
   get 'apis/sp_rel_reg'
+  get 'apis/sp_owned'
   
   get 'nb10000apis/salesdistance'
 
