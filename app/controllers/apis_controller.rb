@@ -334,6 +334,83 @@ class ApisController < ApplicationController
     render json: jsonString.to_json
 
   end
+
+  def reg_sp
+    email = params['email']
+    apikey = params['apikey']
+    user = User.find_by(email: email)
+    if user && user.apikey == apikey
+      @sp = SalesPoint.create(name: params['name'],
+                              description: params['content'],
+                              user_id: user.id,
+                              status: params['status'],
+                              lat: params['lat'],
+                              lon: params['lon'],
+                              capacity: params['capacity'])
+      responseInfo = {status: 200, developerMessage: "Sales Point created"}
+    else
+      responseInfo = {status: 504, developerMessage: "Authentification failed"}
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, salespoint: @sp}
+    render json: jsonString.to_json
+  end
+
+  def reg_product
+    email = params['email']
+    apikey = params['apikey']
+    user = User.find_by(email: email)
+    product = {}
+    if user && user.apikey == apikey
+      @product = Product.create(name: params['name'],
+                                content: params['content'],
+                                status: params['status'],
+                                dprice: params['price'],
+                                user_id: user.id,
+                                image: params['image'])
+      product['name'] = @product.name
+      product['description'] = @product.description
+      product['status'] = @product.status
+      product['price'] = @product.dprice
+      if @product.image.attached?
+        product["image"] = rails_blob_path(product.image, only_path: true)
+      else
+        product["image"] = "/noimage.jpg"
+      end
+      responseInfo = {status: 200, developerMessage: "Product registered"}
+    else
+      responseInfo = {status: 504, developerMessage: "Authentification failed"}
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, product: product}
+    render json: jsonString
+  end
+
+  def sp_rel_reg
+    user = User.find_by(email: params['email'])
+    if user && user.apikey == params['apikey']
+      sp = SalesPoint.find(params['sp_id'])
+      params['products'].each do |product_id|
+        product = Product.find(product_id)
+        spr = SalesProductRelation.where("sales_point_id = ? AND product_id = ?",sp.id,product.id)
+        if spr
+          SalesProductRelation.update(price: product.dprice,
+                                      stock: 0)
+        else
+          SalesProductRelation.create(sales_point_id: sp.id,
+                                      product_id: product.id,
+                                      price: product.dprice,
+                                      stock: 0)
+        end
+      end
+      responseInfo = {status: 200, developerMessage: "#{params['products'].count} products added to sales point"}
+    else
+      responseInfo = {status: 504, developerMessage: "Authentification failed"}
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, result: nil}
+    render json: jsonString
+  end
   
 
 end

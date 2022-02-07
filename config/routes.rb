@@ -31,7 +31,13 @@ Rails.application.routes.draw do
   get 'apis/currentstockallsp'
   get 'apis/currentstocksp'
   #get 'apis/submitnewprofile'
+  get 'apis/reg_sp'
+  post 'apis/reg_product'
+  get 'apis/reg_product'
+  get 'apis/sp_rel_reg'
+  
   get 'nb10000apis/salesdistance'
+
 
 
 end
