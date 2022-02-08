@@ -418,7 +418,7 @@ class ApisController < ApplicationController
     
     if user && user.apikey == params['apikey']
       salespoints = SalesPoint.where("user_id = ?", user.id)
-      salesPoints.each do |salesPoint|
+      salespoints.each do |salesPoint|
         sp = {}
         sp["id"] = salesPoint.id
         sp["name"] = salesPoint.name
