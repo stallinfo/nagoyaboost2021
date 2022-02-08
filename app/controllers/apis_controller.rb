@@ -414,47 +414,46 @@ class ApisController < ApplicationController
 
   def sp_owned
     user = User.find_by(email: params['email'])
-    jsonsalespoints = []
+    jsonSP = []
     
     if user && user.apikey == params['apikey']
-      salespoints = SalesPoint.all
-   
-      counter = 0
-      salespoints.each do |salespoint|
-        jsonsalespoints[counter] = {}
-        jsonsalespoints[counter]["id"] = salespoint.id
-        jsonsalespoints[counter]["name"] = salespoint.name
-        jsonsalespoints[counter]["lat"] = salespoint.lat.to_f
-        jsonsalespoints[counter]["lon"] = salespoint.lon.to_f
-        jsonsalespoints[counter]["status"] = salespoint.status
-        jsonsalespoints[counter]["user_id"] = salespoint.user_id
-        subcounter = 0
-        jsonsalespoints[counter]["products"] = []
-        salespoint.sales_product_relations.each do |spr|
-          product = Product.find(spr.product_id)
-          jsonsalespoints[counter]["products"][subcounter] = {}
-          jsonsalespoints[counter]["products"][subcounter]["id"] = product.id
-          jsonsalespoints[counter]["products"][subcounter]["name"] = product.name
-          jsonsalespoints[counter]["products"][subcounter]["description"] = product.description
-          jsonsalespoints[counter]["products"][subcounter]["status"] = product.status
-          jsonsalespoints[counter]["products"][subcounter]["price"] = spr.price.to_f
-          if product.image.attached?
-            jsonsalespoints[counter]["products"][subcounter]["image"] = rails_blob_path(product.image, only_path: true)
-          else
-            jsonsalespoints[counter]["products"][subcounter]["image"] = "no image"
+      salespoints = SalesPoint.where("user_id = ?", user.id)
+      salesPoints.each do |salesPoint|
+        sp = {}
+        sp["id"] = salesPoint.id
+        sp["name"] = salesPoint.name
+        sp["lat"] = salesPoint.lat.to_f
+        sp["lon"] = salesPoint.lon.to_f
+        sp["status"] = salesPoint.status 
+        sp["user_id"] = salesPoint.user_id
+        sp["products"] = []
+        products = Product.where("user_id = ?", salesPoint.user_id)
+        products.each do |product|
+          existProduct = SalesProductRelation.where("product_id = ? AND sales_point_id = ? AND stock > 0", product.id, salesPoint.id).first
+          if existProduct
+            cp = {}
+            cp["id"] = product.id
+            cp["stock"] = existProduct.stock
+            cp["price"] = existProduct.price.to_f
+            cp["name"] = product.name
+            cp["content"] = product.description
+            cp["created_at"] = product.created_at
+            if product.image.attached?
+              cp["image"] = rails_blob_path(product.image, only_path: true)
+            else
+              cp["image"] = "/noimage.jpg"
+            end
+            sp["products"].push(cp)
           end
-          subcounter += 1
         end
-        counter += 1
+        jsonSP.push(sp)
       end
-      
       responseInfo = {status: 200, developerMessage: "All sales points"}
-      
     else
       responseInfo = {status: 504, developerMessage: "Authentification failed"}
     end
     metadata = {responseInfo: responseInfo}
-    jsonString = {metadata: metadata, salespoints: jsonsalespoints}
+    jsonString = {metadata: metadata, salespoints: jsonSP}
     render json: jsonString.to_json
   end
 end
