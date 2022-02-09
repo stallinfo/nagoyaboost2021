@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   get 'apis/sp_owned'
   
   get 'nb10000apis/salesdistance'
-
-
+  get 'nb10000apis/reg_product'
+  get 'nb10000apis/reg_market'
 
 end

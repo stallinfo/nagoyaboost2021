@@ -1,11 +1,69 @@
 class Nb10000apisController < ApplicationController
-  
+  skip_before_action :verify_authenticity_token
+
   def mujin_all
   end
 
   def user_touroku
   end
-  
+
+  def reg_market
+    loc = []
+    apikey = params['apikey']
+    email = params['email']
+    name = params['name']
+    description = params['description']
+    loc[0] = params['lat']
+    loc[1] = params['lon']
+
+    user = User.find_by(email: email)
+    profile = {}
+    responseInfo = {}
+    #user = User.find_by(marketname: marketname)
+
+    if user != nil && user.apikey == apikey && name != nil && loc[0] != nil && loc[1] != nil
+      profile['id'] = user.id
+      responseInfo = {status: 200, developerMessage: "Market Registrated"}
+    else
+      responseInfo = {status: 504, developerMessage: "Registration Failed"}
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, profile: profile}
+    render json: jsonString.to_json
+  end
+
+  def reg_product
+    email = params['email']
+    apikey = params['apikey']
+    user = User.find_by(email: email)
+    product = {}
+    profile = {}
+    if user && user.apikey == apikey
+      @product = Product.create(name: params['name'],
+                                description: params['description'],
+                                condition: params['condition'],
+                                dprice: params['price'],
+                                user_id: user.id,
+                                image: params['image'])
+      product['name'] = @product.name
+      product['description'] = @product.description
+      product['status'] = @product.status
+      product['price'] = @product.dprice
+      if @product.image.attached?
+        product["image"] = rails_blob_path(product.image, only_path: true)
+      else
+        product["image"] = "/noimage.jpg"
+      end
+      profile['id'] = @product.user_id
+      responseInfo = {status: 200, developerMessage: "Product registered"}
+    else
+      responseInfo = {status: 505, developerMessage: "Authentification failed"}
+    end
+    metadata = {responseInfo: responseInfo}
+    jsonString = {metadata: metadata, profile: profile}
+    render json: jsonString
+  end
+
   def salesdistance
     loc1 = []
     loc2 = []
@@ -73,5 +131,5 @@ class Nb10000apisController < ApplicationController
       render json: jsonString.to_json
     end
   end
-  
+
 end
