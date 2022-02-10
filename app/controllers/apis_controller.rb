@@ -18,6 +18,7 @@ class ApisController < ApplicationController
       if current_location.distance_to(destination) <= range #1.864114 # 3000 meters = 1.864114 miles
         sp["id"] = salesPoint.id
         sp["name"] = salesPoint.name
+        sp["content"] = salesPoint.description
         sp["lat"] = salesPoint.lat.to_f
         sp["lon"] = salesPoint.lon.to_f
         sp["status"] = salesPoint.status 
