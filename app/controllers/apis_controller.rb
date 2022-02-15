@@ -426,6 +426,7 @@ class ApisController < ApplicationController
         sp["lat"] = salesPoint.lat.to_f
         sp["lon"] = salesPoint.lon.to_f
         sp["status"] = salesPoint.status 
+        sp["content"] = salesPoint.description
         sp["user_id"] = salesPoint.user_id
         sp["products"] = []
         products = Product.where("user_id = ?", salesPoint.user_id)
