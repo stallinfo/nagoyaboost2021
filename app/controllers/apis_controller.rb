@@ -139,9 +139,21 @@ class ApisController < ApplicationController
         profile["apikey"] = user.apikey
         profile["id"] = user.id
         profile["name"] = user.username
-        profile["gender"] = user.gender
-        profile["age"] = user.age
-        profile["shoptime"] = user.shoptime
+        if user.gender 
+          profile["gender"] = user.gender
+        else
+          profile["gender"] = -1
+        end
+        if user.age 
+          profile["age"] = user.age
+        else
+          profile["age"] = -1
+        end
+        if user.shoptime
+          profile["shoptime"] = user.shoptime
+        else
+          profile["shoptime"] = -1
+        end
         responseInfo = {status: 201, developerMessage: "New API key generated"}
       else 
         responseInfo = {status: 502, developerMessage: "User not found" } 
@@ -166,9 +178,22 @@ class ApisController < ApplicationController
         profile["apikey"] = apikey
         profile["id"] = user.id
         profile["name"] = user.username
-        profile["gender"] = user.gender
-        profile["age"] = user.age
-        profile["shoptime"] = user.shoptime
+        if user.gender 
+          profile["gender"] = user.gender
+        else
+          profile["gender"] = -1
+        end
+        if user.age 
+          profile["age"] = user.age
+        else
+          profile["age"] = -1
+        end
+        if user.shoptime
+          profile["shoptime"] = user.shoptime
+        else
+          profile["shoptime"] = -1
+        end
+
         responseInfo = {status: 200, developerMessage: "User authorized"}
       else
         responseInfo = {status: 503, developerMessage: "Syntax Error" }
