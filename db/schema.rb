@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_16_020507) do
+ActiveRecord::Schema.define(version: 2022_02_16_064011) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -77,6 +77,24 @@ ActiveRecord::Schema.define(version: 2022_02_16_020507) do
     t.index ["sales_point_id"], name: "index_sales_product_relations_on_sales_point_id"
   end
 
+  create_table "userchecklist_transactions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "userchecklist_id", null: false
+    t.integer "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_userchecklist_transactions_on_user_id"
+    t.index ["userchecklist_id", "user_id"], name: "index_userchecklist_transactions_on_userchecklist_id_and_user_id"
+    t.index ["userchecklist_id"], name: "index_userchecklist_transactions_on_userchecklist_id"
+  end
+
+  create_table "userchecklists", force: :cascade do |t|
+    t.string "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["id", "created_at"], name: "index_userchecklists_on_id_and_created_at"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -100,4 +118,6 @@ ActiveRecord::Schema.define(version: 2022_02_16_020507) do
   add_foreign_key "sales_points", "users"
   add_foreign_key "sales_product_relations", "products"
   add_foreign_key "sales_product_relations", "sales_points"
+  add_foreign_key "userchecklist_transactions", "userchecklists"
+  add_foreign_key "userchecklist_transactions", "users"
 end

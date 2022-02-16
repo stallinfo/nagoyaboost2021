@@ -5,4 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :sales_points , dependent: :destroy
   has_many :products, dependent: :destroy
+  has_many :userchecklist_transactions, dependent: :destroy
 end
